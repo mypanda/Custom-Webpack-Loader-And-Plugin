@@ -1,5 +1,6 @@
 const { resolve } = require('path')
 const bundlesizeplugin = require('./bundlesize-webpack-plugin')
+const FilelistWebpackPlugin = require('./filelist-webpack-plugin')
 const path = require('path')
 
 module.exports = {
@@ -12,7 +13,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: ['babel-loader']
+        use: [ 'jsinfo-loader', 'babel-loader']
       },
       // {
       //   test: /\.mp3$/,
@@ -20,8 +21,7 @@ module.exports = {
       // },
       {
         test: /\.mp3$/,
-        use: [
-          {
+        use: [{
             loader: 'babel-loader'
           },
           {
@@ -36,10 +36,16 @@ module.exports = {
   },
   resolveLoader: {
     alias: {
+      'jsinfo-loader': path.resolve(__dirname, 'jsinfo-loader/index.js'),
       'mp3-loader': path.resolve(__dirname, 'mp3-loader/index.js')
     }
   },
-  plugins: [new bundlesizeplugin({
-    sizeLimit: 4
-  })]
+  plugins: [
+    new FilelistWebpackPlugin({
+      outputFile: 'fileList.md'
+    }),
+    new bundlesizeplugin({
+      sizeLimit: 4
+    })
+  ]
 }
