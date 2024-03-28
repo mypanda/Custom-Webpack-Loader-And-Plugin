@@ -1,6 +1,7 @@
 const { resolve } = require('path')
-const bundlesizeplugin = require('./bundlesize-webpack-plugin')
+const BundlesizeWebpackPlugin = require('./bundlesize-webpack-plugin')
 const FilelistWebpackPlugin = require('./filelist-webpack-plugin')
+const TestWebpackPlugin = require('./test-webpack-plugin')
 const path = require('path')
 
 module.exports = {
@@ -44,8 +45,9 @@ module.exports = {
     new FilelistWebpackPlugin({
       outputFile: 'fileList.md'
     }),
-    new bundlesizeplugin({
+    new BundlesizeWebpackPlugin({
       sizeLimit: 4
-    })
+    }),
+    new TestWebpackPlugin()
   ]
 }
